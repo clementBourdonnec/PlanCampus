@@ -15,6 +15,6 @@ import { ContactPage } from './contact.page';
     IonicModule,
     ContactPageRoutingModule
   ],
-  declarations: [ContactPage]
+  declarations: []
 })
 export class ContactPageModule {}
