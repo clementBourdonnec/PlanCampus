@@ -1,21 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>edt</ion-title>
+    <ion-title>edt {{currentMonth}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   
 
-  <calendar id='edt'
-    locale='fr-FR'
-    calendarMode='week'
-    startHour='6'
-    endHour='20'
-    step='30'
+  <calendar id="myCalendar"
+    locale="fr-FR"
+    calendarMode="week" 
+    startHour="6"
+    endHour="20"
+    step="30"
     startingDayWeek="1"
-    [currentDate]='currentDate'
-  >
+    [currentDate]='currentDateVar'
+>
   </calendar>
 
 
