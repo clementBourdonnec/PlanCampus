@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CalendarComponent } from 'ionic2-calendar/calendar';
+import { CalendarComponent } from 'ionic2-calendar';
 
 @Component({
   selector: 'app-edt',
@@ -7,6 +7,8 @@ import { CalendarComponent } from 'ionic2-calendar/calendar';
   styleUrls: ['./edt.page.scss'],
 })
 export class EdtPage implements OnInit {
+  eventSource = [];
+  cpt:number = 0;
 
   calendar = {
     mode: 'week',
@@ -17,20 +19,88 @@ export class EdtPage implements OnInit {
     locale: 'fr-FR'
   }
 
-  currentDateVar = new Date()
-  currentMonth: string
-  //@ViewChild(CalendarComponent, {static: false}) myCalendar: CalendarComponent
-
-  constructor() { }
-
- 
+  @ViewChild(CalendarComponent, null) myCalendar: CalendarComponent;
   
 
-  ngOnInit() {
+  constructor() {
+  }
+
+  createEvents(event){
+    var events = []
+    var date:Date = event.selectedTime
+    var startDate = new Date(date)
+    var endDate =  new Date(date)
+    endDate.setHours(date.getHours()+2)
+    events.push({
+      title:'Event',
+      startTime:startDate,
+      endTime:endDate,
+      allDay: false
+    })
+    
+    
+    
+    return events
+  }
+  
+  
+  /*
+  private startTime = new Date()
+  endTime = new Date()
+
+  eventSource : {
+    title
+    startTime
+    endTime
+  }
+  
+
+
+
+  loadEvents: function():void {
+    this?.eventSource?.push({
+        title: 'test',
+        startTime: this?.startTime,
+        endTime: endTime,
+        allDay: false
+    });
+    this.myCalendar?.loadEvents();
+}
+    */
+
+  loadEvents(event){
+    
+    if(this.cpt == 0){
+      this.eventSource = this.createEvents(event);
+      console.log(this.createEvents(event));
+      this.cpt++;
+    }
+    else{
+      console.log(this.eventSource);
+      
+      var events = this.eventSource;
+      events.push(this.createEvents(event));
+      this.eventSource = [];
+      setTimeout(
+        ()=>{
+          this.eventSource = events
+        }
+      )
+    }
+    console.log(this.cpt);
+    console.log(this.eventSource);
+    
+  }
+
+  onDayHeaderSelected(event){
+    console.log(event)
+    console.log('jkjkj');
+    
   }
 
   onCurrentDateChanged(event: Date){
-    console.log('Current date chahge: ' + event)
+    
+    console.log('Current date change: ' + event)
   }
   reloadSource(startTime, endTime){
     console.log('start and end time : ' + startTime + ', ' + endTime);
@@ -40,13 +110,17 @@ export class EdtPage implements OnInit {
     console.log('Event Selected: ' + event.startTime + ' - ' + event.endTime + ',' + event.title);
     
   }
+  
   onViewTitleChanged(title){
     console.log(title);
   }
+
   onTimeSelected(event){
     console.log('Selected time: ' + event.selectedTime + ', hasEvents: ' + 
     (event.events !== undefined && event.events.length !==0 ) + ', disabled: ' + event.disabled);
-    
+    this.loadEvents(event)
   }
-
+  ngOnInit() {
+  }
+  
 }

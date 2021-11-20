@@ -5,7 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <calendar [eventSource]="eventSource"
+  <calendar id='myCalendar'
+  [eventSource]="eventSource"
   [calendarMode]="calendar.mode"
   [currentDate]="calendar.currentDate"
   (onCurrentDateChanged)="onCurrentDateChanged($event)"
@@ -17,7 +18,8 @@
   [startHour]='calendar.startHour'
   [endHour]='calendar.endHour'
   allDayLabel='All Day'
-  [locale]='calendar.locale'>
+  [locale]='calendar.locale'
+  (onDayHeaderSelected)='onDayHeaderSelected'>
   </calendar>
 
 
