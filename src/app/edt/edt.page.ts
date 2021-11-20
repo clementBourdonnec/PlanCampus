@@ -74,18 +74,26 @@ export class EdtPage implements OnInit {
       this.eventSource = this.createEvents(event);
       console.log(this.createEvents(event));
       this.cpt++;
+      console.log('aaaaaaaa');
+      
     }
     else{
-      console.log(this.eventSource);
+      console.log('bbbbbbbbbbbbbb');
+      
       
       var events = this.eventSource;
       events.push(this.createEvents(event));
-      this.eventSource = [];
+      setTimeout(()=>{
+        this.eventSource = [];
+      },5000)
       setTimeout(
         ()=>{
           this.eventSource = events
-        }
+        },5000
       )
+      console.log(this.eventSource);
+      console.log(events);
+      
     }
     console.log(this.cpt);
     console.log(this.eventSource);
