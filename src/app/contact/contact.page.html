@@ -12,4 +12,25 @@
       <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
     </ion-tab-bar>
   </ion-tabs>
+
+<ion-item>
+  <ion-label position="floating">Recherche</ion-label>
+  <ion-input placeholder="Chercher une école, un bâtiment..."></ion-input>
+</ion-item>
+
+<ion-content>
+  <ion-button (click)="toggleInfiniteScroll()" expand="block">
+    Toggle Infinite Scroll
+  </ion-button>
+
+  <ion-list></ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
 </ion-content>
