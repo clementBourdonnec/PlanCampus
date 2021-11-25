@@ -10,6 +10,7 @@ import { EdtPage } from './edt/edt.page';
 import { ContactPage } from './contact/contact.page';
 import { MapPage } from './map/map.page';
 
+
 @NgModule({
   declarations: [AppComponent, EdtPage, ContactPage, MapPage],
   entryComponents: [],
