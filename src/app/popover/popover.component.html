@@ -1,0 +1,14 @@
+<ion-header class='popover' [translucent]="true">
+  <ion-toolbar>
+    <ion-header>{{title}}</ion-header>
+  </ion-toolbar>
+  <ion-content>
+    Début : {{start}}
+    Fin : {{end}}
+
+  </ion-content>
+    <ion-item button color="grey" (click) = "closePopover()">
+    <ion-icon name="close" slot="start"></ion-icon>
+    Close Popover
+  </ion-item>
+</ion-header>

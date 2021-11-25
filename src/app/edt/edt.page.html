@@ -5,6 +5,9 @@
 </ion-header>
 
 <ion-content>
+  <!-- 
+    (onTimeSelected)="onTimeSelected($event)"
+  -->
   <calendar id='myCalendar'
   [eventSource]="eventSource"
   [calendarMode]="calendar.mode"
@@ -13,13 +16,13 @@
   (onRangeChanged)="reloadSource(startTime, endTime)"
   (onEventSelected)="onEventSelected($event)"
   (onTitleChanged)="onViewTitleChanged($event)"
-  (onTimeSelected)="onTimeSelected($event)"
   [step]="calendar.step"
   [startHour]='calendar.startHour'
   [endHour]='calendar.endHour'
   allDayLabel='All Day'
   [locale]='calendar.locale'
-  (onDayHeaderSelected)='onDayHeaderSelected'>
+  (onDayHeaderSelected)='onDayHeaderSelected'
+  autoSelect ='false'>
   </calendar>
 
 

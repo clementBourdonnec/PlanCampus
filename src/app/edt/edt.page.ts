@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarComponent } from 'ionic2-calendar';
+import { File } from '@ionic-native/file/ngx';
+import { PopoverComponent } from '../popover/popover.component';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-edt',
@@ -7,22 +10,24 @@ import { CalendarComponent } from 'ionic2-calendar';
   styleUrls: ['./edt.page.scss'],
 })
 export class EdtPage implements OnInit {
+
   eventSource = [];
-  cpt:number = 0;
-
-  calendar = {
-    mode: 'week',
-    currentDateVar: new Date(),
-    startHour:'6',
-    endHour: '20',
-    step: '30',
-    locale: 'fr-FR'
-  }
-
+  cpt:number;
+  calendar;
   @ViewChild(CalendarComponent, null) myCalendar: CalendarComponent;
   
 
-  constructor() {
+  constructor(private popoverController:PopoverController) {
+    this.calendar  = {
+      mode: 'week',
+      currentDate: new Date(),
+      startHour:'6',
+      endHour: '20',
+      step: '30',
+      locale: 'fr-FR'
+    }    
+
+
   }
 
   createEvents(event){
@@ -36,53 +41,32 @@ export class EdtPage implements OnInit {
       startTime:startDate,
       endTime:endDate,
       allDay: false
-    })
+  })
     
     
     
     return events
   }
-  
-  
-  /*
-  private startTime = new Date()
-  endTime = new Date()
 
-  eventSource : {
-    title
-    startTime
-    endTime
-  }
-  
-
-
-
-  loadEvents: function():void {
-    this?.eventSource?.push({
-        title: 'test',
-        startTime: this?.startTime,
-        endTime: endTime,
-        allDay: false
-    });
-    this.myCalendar?.loadEvents();
-}
-    */
-
-  loadEvents(event){
+  loadEventFromInfo(start:Date,end:Date,eventName:string,allday:boolean){
+    console.log(this.cpt);
     
+    events=[]
+    events.push({
+      title: eventName,
+      startTime:start,
+      endTime:end,
+      allDay: allday
+    })
     if(this.cpt == 0){
-      this.eventSource = this.createEvents(event);
-      console.log(this.createEvents(event));
+      this.eventSource = events;
       this.cpt++;
-      console.log('aaaaaaaa');
-      
     }
     else{
+      this.cpt++;
       console.log('bbbbbbbbbbbbbb');
-      
-      
       var events = this.eventSource;
-      events.push(this.createEvents(event));
+      events.push(events);
       setTimeout(()=>{
         this.eventSource = [];
       },5000)
@@ -91,13 +75,36 @@ export class EdtPage implements OnInit {
           this.eventSource = events
         },5000
       )
-      console.log(this.eventSource);
-      console.log(events);
-      
     }
-    console.log(this.cpt);
+  }
+
+  loadEvents(event){
     console.log(this.eventSource);
     
+    console.log(this.cpt);
+    
+    if(this.cpt == 0){
+      this.eventSource = this.createEvents(event);
+      console.log(this.createEvents(event));
+      this.cpt++;
+      console.log('aaaaaaaa');
+    }
+    else{
+      this.cpt++;
+      console.log('bbbbbbbbbbbbbb');
+      var events = this.eventSource;
+      console.log(this.createEvents(event)[0]);
+      
+      events.push(this.createEvents(event)[0]);
+      setTimeout(()=>{
+        this.eventSource = [];
+      },5000)
+      setTimeout(
+        ()=>{
+          this.eventSource = events
+        },5000
+      )
+    }
   }
 
   onDayHeaderSelected(event){
@@ -116,7 +123,7 @@ export class EdtPage implements OnInit {
   }
   onEventSelected(event){
     console.log('Event Selected: ' + event.startTime + ' - ' + event.endTime + ',' + event.title);
-    
+    this.presentPopover(event)
   }
   
   onViewTitleChanged(title){
@@ -128,7 +135,31 @@ export class EdtPage implements OnInit {
     (event.events !== undefined && event.events.length !==0 ) + ', disabled: ' + event.disabled);
     this.loadEvents(event)
   }
+
   ngOnInit() {
+    this.cpt=0;
+
+    var start=new Date();
+    var end=new Date();
+    end.setHours(end.getHours()+2);
+    end.setMinutes(start.getMinutes());
+    var eventName='Event Created on Init';
+    this.loadEventFromInfo(start,end,eventName,false);
+    //this.file.getFile(downloadPath,fileName,{create:false});
+  }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PopoverComponent,
+      cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true,
+      componentProps:{event:ev,start:ev.startDate,end:ev.endDate}
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
   
 }
