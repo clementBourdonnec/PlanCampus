@@ -12,4 +12,36 @@
       <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
     </ion-tab-bar>
   </ion-tabs>
+
+<ion-item>
+  <ion-label position="floating">Recherche</ion-label>
+  <ion-input placeholder="Chercher une école, un bâtiment..."></ion-input>
+</ion-item>
+
+<!-- Début scrollbar -->
+<ion-list>
+
+  <ion-item *ngFor="let employee of itemListData">
+    <ion-avatar slot="start">
+      <img [src]="employee.imageUrl">
+    </ion-avatar>
+    <ion-label>
+      <ion-text>
+        <h2>{{employee.name}}</h2>
+        <p>{{employee.jobtype}}</p>
+      </ion-text>
+      <ion-text color="medium">
+        <p>{{employee.email}}, {{employee.address}}</p>
+      </ion-text>
+    </ion-label>
+  </ion-item>
+
+</ion-list>
+
+<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+<!-- Fin scrollbar -->
+
 </ion-content>
