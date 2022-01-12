@@ -23,7 +23,7 @@ export class EdtPage implements OnInit {
       currentDate: new Date(),
       startHour:'6',
       endHour: '20',
-      step: '30',
+      step: '30', 
       locale: 'fr-FR'
     }    
 
