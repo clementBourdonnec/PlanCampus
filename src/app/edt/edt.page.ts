@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarComponent } from 'ionic2-calendar';
-import { File } from '@ionic-native/file/ngx';
 import { PopoverComponent } from '../popover/popover.component';
 import { PopoverController } from '@ionic/angular';
 
@@ -26,8 +25,6 @@ export class EdtPage implements OnInit {
       step: '30', 
       locale: 'fr-FR'
     }    
-
-
   }
 
   createEvents(event){
