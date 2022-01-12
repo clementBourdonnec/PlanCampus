@@ -20,7 +20,7 @@ export class PopoverComponent implements OnInit {
     this.start = this.navParam.get('start');
     this.end = this.navParam.get('end');
     this.title = this.event.title;
-    console.log(this.event.startDate);
+    console.log(this.start);
     
     //this.start = this.event.startDate;
     //this.end = this.event.endDate;

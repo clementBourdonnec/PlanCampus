@@ -49,8 +49,6 @@ export class EdtPage implements OnInit {
   }
 
   loadEventFromInfo(start:Date,end:Date,eventName:string,allday:boolean){
-    console.log(this.cpt);
-    
     events=[]
     events.push({
       title: eventName,
@@ -64,7 +62,6 @@ export class EdtPage implements OnInit {
     }
     else{
       this.cpt++;
-      console.log('bbbbbbbbbbbbbb');
       var events = this.eventSource;
       events.push(events);
       setTimeout(()=>{
@@ -79,22 +76,13 @@ export class EdtPage implements OnInit {
   }
 
   loadEvents(event){
-    console.log(this.eventSource);
-    
-    console.log(this.cpt);
-    
     if(this.cpt == 0){
       this.eventSource = this.createEvents(event);
-      console.log(this.createEvents(event));
       this.cpt++;
-      console.log('aaaaaaaa');
     }
     else{
       this.cpt++;
-      console.log('bbbbbbbbbbbbbb');
       var events = this.eventSource;
-      console.log(this.createEvents(event)[0]);
-      
       events.push(this.createEvents(event)[0]);
       setTimeout(()=>{
         this.eventSource = [];
