@@ -9,7 +9,8 @@ import { PopoverController } from '@ionic/angular';
   styleUrls: ['./edt.page.scss'],
 })
 export class EdtPage implements OnInit {
-
+  selDate :Date;
+  selTitle :String;
   eventSource = [];
   cpt:number;
   calendar;
@@ -116,6 +117,8 @@ export class EdtPage implements OnInit {
   }
 
   onTimeSelected(event){
+    this.selDate = event.selectedTime;
+    this.selTitle = event.title
     console.log('Selected time: ' + event.selectedTime + ', hasEvents: ' + 
     (event.events !== undefined && event.events.length !==0 ) + ', disabled: ' + event.disabled);
     this.loadEvents(event)
@@ -134,12 +137,14 @@ export class EdtPage implements OnInit {
   }
 
   async presentPopover(ev: any) {
+    console.log(ev);
+    
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       cssClass: 'my-custom-class',
       event: ev,
       translucent: true,
-      componentProps:{event:ev,start:ev.startDate,end:ev.endDate}
+      componentProps:{event:this.selTitle,start:this.selDate,end:ev.endDate}
     });
     await popover.present();
 
