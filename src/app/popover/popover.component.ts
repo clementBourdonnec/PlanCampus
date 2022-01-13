@@ -8,22 +8,17 @@ import { NavParams, PopoverController } from '@ionic/angular';
 })
 export class PopoverComponent implements OnInit {
 
-  event;
   title:string;
-  start:Date;
-  end:Date;
+  date:Date;
+  description:String;
+
 
   constructor(private popoverController:PopoverController,public navParam:NavParams) { }
 
   ngOnInit() {
-    this.event = this.navParam.get('event');
-    this.start = this.navParam.get('start');
-    this.end = this.navParam.get('end');
-    this.title = this.event.title;
-    console.log(this.start);
-    
-    //this.start = this.event.startDate;
-    //this.end = this.event.endDate;
+    this.date = this.navParam.get('date');
+    this.title = this.navParam.get('title');
+    this.description = this.navParam.get('descr')
   }
 
   closePopover(){

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarComponent } from 'ionic2-calendar';
 import { PopoverComponent } from '../popover/popover.component';
 import { PopoverController } from '@ionic/angular';
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-edt',
@@ -17,7 +18,7 @@ export class EdtPage implements OnInit {
   @ViewChild(CalendarComponent, null) myCalendar: CalendarComponent;
   
 
-  constructor(private popoverController:PopoverController) {
+  constructor(private popoverController:PopoverController, public datepipe: DatePipe) {
     this.calendar  = {
       mode: 'week',
       currentDate: new Date(),
@@ -107,21 +108,22 @@ export class EdtPage implements OnInit {
     console.log('start and end time : ' + startTime + ', ' + endTime);
     
   }
-  onEventSelected(event){
-    console.log('Event Selected: ' + event.startTime + ' - ' + event.endTime + ',' + event.title);
+  onEventSelected(event: { selectedTime: Date,  title: String }){
+    this.selDate = event.selectedTime
+    //this.selTitle = event.title
+    console.log('Event Selected: ' + this.selDate + ',' + this.selTitle);
     this.presentPopover(event)
   }
   
   onViewTitleChanged(title){
-    console.log(title);
+    //console.log(title);
+    //this.selTitle = title;
   }
 
   onTimeSelected(event){
-    this.selDate = event.selectedTime;
-    this.selTitle = event.title
     console.log('Selected time: ' + event.selectedTime + ', hasEvents: ' + 
-    (event.events !== undefined && event.events.length !==0 ) + ', disabled: ' + event.disabled);
-    this.loadEvents(event)
+    (event.events !== undefined && event.events.length !==0 ) + ', disabled: ' + event.disabled + ", title: " + event.title);
+    //this.loadEvents(event)
   }
 
   ngOnInit() {
@@ -138,13 +140,18 @@ export class EdtPage implements OnInit {
 
   async presentPopover(ev: any) {
     console.log(ev);
+    var s = this.datepipe.transform(ev.startTime, 'dd MMMM yyyy').toString();
+    s += " • " + ev.startTime.getHours() + ":"+ev.startTime.getMinutes();
+    s += " - " + ev.endTime.getHours() + ":" + ev.endTime.getMinutes();
+    console.log(s);
+    
     
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       cssClass: 'my-custom-class',
       event: ev,
       translucent: true,
-      componentProps:{event:this.selTitle,start:this.selDate,end:ev.endDate}
+      componentProps:{title:ev.title,date:s, descr=ev.}
     });
     await popover.present();
 
