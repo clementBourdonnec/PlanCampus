@@ -39,7 +39,8 @@ export class EdtPage implements OnInit {
       title:'Event',
       startTime:startDate,
       endTime:endDate,
-      allDay: false
+      allDay: false,
+      details:"Test Detail"
   })
     
     
@@ -47,13 +48,14 @@ export class EdtPage implements OnInit {
     return events
   }
 
-  loadEventFromInfo(start:Date,end:Date,eventName:string,allday:boolean){
+  loadEventFromInfo(start:Date,end:Date,eventName:string,allday:boolean, detail:String){
     events=[]
     events.push({
       title: eventName,
       startTime:start,
       endTime:end,
-      allDay: allday
+      allDay: allday,
+      details:detail
     })
     if(this.cpt == 0){
       this.eventSource = events;
@@ -134,16 +136,21 @@ export class EdtPage implements OnInit {
     end.setHours(end.getHours()+2);
     end.setMinutes(start.getMinutes());
     var eventName='Event Created on Init';
-    this.loadEventFromInfo(start,end,eventName,false);
+    this.loadEventFromInfo(start,end,eventName,false,"Test Detail");
     //this.file.getFile(downloadPath,fileName,{create:false});
   }
 
   async presentPopover(ev: any) {
     console.log(ev);
     var s = this.datepipe.transform(ev.startTime, 'dd MMMM yyyy').toString();
-    s += " • " + ev.startTime.getHours() + ":"+ev.startTime.getMinutes();
-    s += " - " + ev.endTime.getHours() + ":" + ev.endTime.getMinutes();
+    //var tmp:String = ev.startTime.getMinutes().toString();
+    //if(ev.startTime.getMinutes()<10)tmp = "0"+tmp;
+    s += " • " + ev.startTime.getHours() + ":"+ev.startTime.getMinutes().toString();
+    //tmp:String = ev.endTime.getMinutes().toString();
+    //if(ev.endTime.getMinutes()<10)tmp = "0"+tmp;
+    s += " - " + ev.endTime.getHours() + ":" + ev.endTime.getMinutes().toString();
     console.log(s);
+    console.log(ev.details);
     
     
     const popover = await this.popoverController.create({
@@ -151,7 +158,7 @@ export class EdtPage implements OnInit {
       cssClass: 'my-custom-class',
       event: ev,
       translucent: true,
-      componentProps:{title:ev.title,date:s, descr=ev.}
+      componentProps:{title:ev.title,date:s, descr: ev.details}
     });
     await popover.present();
 

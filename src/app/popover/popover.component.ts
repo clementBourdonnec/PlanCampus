@@ -10,7 +10,7 @@ export class PopoverComponent implements OnInit {
 
   title:string;
   date:Date;
-  description:String;
+  description:String = "a";
 
 
   constructor(private popoverController:PopoverController,public navParam:NavParams) { }
