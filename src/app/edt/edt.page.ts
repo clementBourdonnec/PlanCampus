@@ -143,12 +143,16 @@ export class EdtPage implements OnInit {
   async presentPopover(ev: any) {
     console.log(ev);
     var s = this.datepipe.transform(ev.startTime, 'dd MMMM yyyy').toString();
-    //var tmp:String = ev.startTime.getMinutes().toString();
-    //if(ev.startTime.getMinutes()<10)tmp = "0"+tmp;
-    s += " • " + ev.startTime.getHours() + ":"+ev.startTime.getMinutes().toString();
-    //tmp:String = ev.endTime.getMinutes().toString();
-    //if(ev.endTime.getMinutes()<10)tmp = "0"+tmp;
-    s += " - " + ev.endTime.getHours() + ":" + ev.endTime.getMinutes().toString();
+    var tmp = ev.startTime.getMinutes().toString();
+    console.log(ev.startTime.getMinutes());
+    
+    // Probleme pour les minutes 0 à 9 : affiche 10h4 par exemple => ajout d'un 0 à ce moment la
+    if(ev.startTime.getMinutes()<10)tmp = "0"+tmp;
+    s += " • " + ev.startTime.getHours() + ":"+tmp;
+    tmp = ev.endTime.getMinutes().toString();
+    if(ev.endTime.getMinutes()<10)tmp = "0"+tmp;
+    s += " - " + ev.endTime.getHours() + ":" + tmp;
+    
     console.log(s);
     console.log(ev.details);
     
