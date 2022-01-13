@@ -12,12 +12,13 @@ import { MapPage } from './map/map.page';
 import { NgCalendarModule} from 'ionic2-calendar';
 import { PopoverComponent } from './popover/popover.component';
 import { DatePipe } from '@angular/common'
+import { HttpClientModule } from '@angular/common/http'
 
 
 @NgModule({
   declarations: [AppComponent, EdtPage, ContactPage, MapPage,PopoverComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,NgCalendarModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,NgCalendarModule, HttpClientModule],
   providers: [DatePipe,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

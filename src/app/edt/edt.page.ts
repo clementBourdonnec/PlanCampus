@@ -3,7 +3,8 @@ import { CalendarComponent } from 'ionic2-calendar';
 import { PopoverComponent } from '../popover/popover.component';
 import { PopoverController } from '@ionic/angular';
 import { DatePipe } from '@angular/common'
-
+import { HttpClient } from '@angular/common/http'
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-edt',
   templateUrl: './edt.page.html',
@@ -15,10 +16,11 @@ export class EdtPage implements OnInit {
   eventSource = [];
   cpt:number;
   calendar;
+  test:any;
   @ViewChild(CalendarComponent, null) myCalendar: CalendarComponent;
   
 
-  constructor(private popoverController:PopoverController, public datepipe: DatePipe) {
+  constructor(private popoverController:PopoverController, public datepipe: DatePipe, private http:HttpClient) {
     this.calendar  = {
       mode: 'week',
       currentDate: new Date(),
@@ -138,6 +140,10 @@ export class EdtPage implements OnInit {
     var eventName='Event Created on Init';
     this.loadEventFromInfo(start,end,eventName,false,"Test Detail");
     //this.file.getFile(downloadPath,fileName,{create:false});
+    this.http.get("https://planning.univ-rennes1.fr/direct/myplanning.jsp?ticket=ST-304837-f4bwEaof1-bKxZ1qsrqhfx8gIfQvmjava-pcas1").subscribe((data) => {
+      console.log(data);
+    });
+    //"https://planning.univ-rennes1.fr/jsp/custom/modules/plannings/OnEkwy3r.shu"
   }
 
   async presentPopover(ev: any) {
@@ -152,7 +158,7 @@ export class EdtPage implements OnInit {
     tmp = ev.endTime.getMinutes().toString();
     if(ev.endTime.getMinutes()<10)tmp = "0"+tmp;
     s += " - " + ev.endTime.getHours() + ":" + tmp;
-    
+
     console.log(s);
     console.log(ev.details);
     
