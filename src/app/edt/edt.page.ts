@@ -278,8 +278,7 @@ export class EdtPage implements OnInit {
         endDate.setHours(endDate.getHours()+1);
       }
 
-      console.log(startDate);
-      console.log('aaaaaa');
+      console.log(startDate + ' ' + sum + ' ' + descr);
       
       this.loadEventFromInfo(startDate,endDate,sum,false,"Localisation " + loc + "\n" + descr)
     }
