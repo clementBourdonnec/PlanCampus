@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="description" content="Outil pour ajouter des contacts à la base de données" />
+  <meta charset="utf-8">
+  <title>oui</title>
+  <link rel="stylesheet" href="./contactGenerator.css" />
+</head>
+<script src="contactGenerator.js"></script>
+
+<body>
+  
+        <div class="navigator">
+            <input type="button" id="btn_previous" class="button" value="Previous">
+            <p id="contactId">1</p>
+            <input type="button" id="btn_next" class="button" value="Next">
+        </div>
+        <div>
+            <form action="">
+              <label for="name">Nom<span class="red">*</span></label>
+              <input type="text" id="name" name="name" required>
+          
+              <label for="address">Adresse</label>
+              <input type="text" id="address" name="address">
+
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email">
+
+              <label for="phone">Téléphone</label>
+              <input type="text" id="phone" name="phone">
+
+              <label for="image">Image</label>
+              <input type="button" id="image" name="image", value="Sélectionner une image">
+          
+            
+              <input type="submit" value="Sauvegarder">
+            </form>
+          </div>
+
+
+    <script>
+        document.getElementById("btn_previous").addEventListener('click', function(){
+                changeContact(-1);
+            });
+            document.getElementById("btn_next").addEventListener('click', function(){
+                changeContact(1);
+            });
+    </script>
+
+</body>
+</html>
