@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class='title'>Emploi du Temps</ion-title>
+    
+    <input type="file" id="input" (change)="getCalendarFileContent($event)">
+    <ion-button (click)="loadCalendar()"> Load Calendar </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -28,6 +31,7 @@
   <!-- 
     (onTimeSelected)="onTimeSelected($event)"
   -->
+
   <calendar 
   [monthviewEventDetailTemplate]="template"
   id='myCalendar'
@@ -47,6 +51,8 @@
   (onDayHeaderSelected)='onDayHeaderSelected'
   autoSelect ='false'>
   </calendar>
+
+
 
 
   <ion-tabs>

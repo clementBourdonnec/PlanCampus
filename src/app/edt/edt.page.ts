@@ -5,11 +5,13 @@ import { PopoverController } from '@ionic/angular';
 import { DatePipe } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import { map } from 'rxjs/operators';
+import { ReadVarExpr } from '@angular/compiler';
 @Component({
   selector: 'app-edt',
   templateUrl: './edt.page.html',
   styleUrls: ['./edt.page.scss'],
 })
+
 export class EdtPage implements OnInit {
   selDate :Date;
   selTitle :String;
@@ -17,8 +19,9 @@ export class EdtPage implements OnInit {
   cpt:number;
   calendar;
   test:any;
+  calendarTextFromFile:String;
+
   @ViewChild(CalendarComponent, null) myCalendar: CalendarComponent;
-  
 
   constructor(private popoverController:PopoverController, public datepipe: DatePipe, private http:HttpClient) {
     this.calendar  = {
@@ -50,6 +53,14 @@ export class EdtPage implements OnInit {
     return events
   }
 
+  /**
+   * Loads an event on the calendar with the provided informations in the parameters
+   * @param start : Date the starting date of the event
+   * @param end : Date the ending date of the event
+   * @param eventName : String the name of the event
+   * @param allday : boolean if the event happens all day long
+   * @param detail : String the details of the event
+   */
   loadEventFromInfo(start:Date,end:Date,eventName:string,allday:boolean, detail:String){
     events=[]
     events.push({
@@ -78,6 +89,10 @@ export class EdtPage implements OnInit {
     }
   }
 
+  /**
+   * Loads an event on the calendar 
+   * @param event an event that can be put in a calendar
+   */
   loadEvents(event){
     if(this.cpt == 0){
       this.eventSource = this.createEvents(event);
@@ -140,17 +155,30 @@ export class EdtPage implements OnInit {
     var eventName='Event Created on Init';
     this.loadEventFromInfo(start,end,eventName,false,"Test Detail");
     //this.file.getFile(downloadPath,fileName,{create:false});
-    this.http.get("https://planning.univ-rennes1.fr/direct/myplanning.jsp?ticket=ST-304837-f4bwEaof1-bKxZ1qsrqhfx8gIfQvmjava-pcas1").subscribe((data) => {
+    /*this.http.get("https://planning.univ-rennes1.fr/direct/myplanning.jsp?ticket=ST-304837-f4bwEaof1-bKxZ1qsrqhfx8gIfQvmjava-pcas1").subscribe((data) => {
       console.log(data);
     });
+    */
     //"https://planning.univ-rennes1.fr/jsp/custom/modules/plannings/OnEkwy3r.shu"
+
+    //Getting Calendar File datas
+    let content = "Calendar File";
+    let data:BlobPart = new Blob([content]);
+    let arrayOfBlob = new Array<Blob>();
+    arrayOfBlob.push(data);
+    let calendarFile = new File(arrayOfBlob, "calendar.ics");
+    //this.getCalendarFileContent(calendarFile)
   }
 
+  /**
+   * Shows the popover which corresponds to a certain event selected. Show the event information
+   * @param ev event selected in the calendar
+   */
   async presentPopover(ev: any) {
     console.log(ev);
     var s = this.datepipe.transform(ev.startTime, 'dd MMMM yyyy').toString();
     var tmp = ev.startTime.getMinutes().toString();
-    console.log(ev.startTime.getMinutes());
+    //console.log(ev.startTime.getMinutes());
     
     // Probleme pour les minutes 0 à 9 : affiche 10h4 par exemple => ajout d'un 0 à ce moment la
     if(ev.startTime.getMinutes()<10)tmp = "0"+tmp;
@@ -175,5 +203,86 @@ export class EdtPage implements OnInit {
     const { role } = await popover.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
   }
+
+  /**
+   * recuperate the content of the file selected by the html page 'edt.page.html'
+   * @param event 
+   */
+  getCalendarFileContent(event){
+    var reader = new FileReader();
+    reader.onloadend = function(evt){
+      console.log('File opened successfully');
+    }
   
+    const file = event.target.files[0];
+    //const file =  document.querySelector('input[type=file]').files[0];
+    console.log(file);
+    
+    reader.readAsText(file);
+    reader.onload = (e)=>{
+      this.calendarTextFromFile = reader.result as String;
+      console.log("Text extracted from calendar file");
+      var tmp = this.calendarTextFromFile.split('\n');
+    }
+  }
+
+  /**
+   * Loads the events contained in the calendarTextFromFile variable as a text : parse this text
+   */
+  loadCalendar() {
+    if(this.calendarTextFromFile.length==0){
+
+    }
+    else{
+    console.log("Starting loading calendar");
+    var eventsTab = this.calendarTextFromFile.split('BEGIN');
+
+    // going on each available event
+    for(let eventIndex = 2; eventIndex<eventsTab.length; eventIndex++){
+      var eventInfoTab = eventsTab[eventIndex].split('\n');
+      var start:string;
+      var end:string;
+      var loc:string;
+      var sum:string;
+      var descr:string;
+
+      // getting each information of the current event
+      for( let infoIndex = 0; infoIndex<eventInfoTab.length; infoIndex++){
+        var info = eventInfoTab[infoIndex]
+        info.includes('DTSTART')?start=info.substring(8):null;
+        info.includes('DTEND')?end=info.substring(6):null;
+        info.includes('LOCATION')?loc=info.substring(9):null;
+        info.includes('SUMMARY')?sum=info.substring(8):null;
+        info.includes('DESCRIPTION')?descr=info.substring(12):null;
+      }
+
+      // parsing event informations
+      var startDate = new Date()
+      startDate.setFullYear(+start.substring(0,4))
+      startDate.setMonth(+start.substring(4,6))
+      startDate.setDate(+start.substring(6,8))
+      startDate.setHours(+start.substring(9,11))
+      startDate.setMinutes(+start.substring(11,13))
+      var endDate = new Date()
+      endDate.setFullYear(+end.substring(0,4))
+      endDate.setMonth(+end.substring(4,6))
+      endDate.setDate(+end.substring(6,8))
+      endDate.setHours(+end.substring(9,11))
+      endDate.setMinutes(+end.substring(11,13))
+      
+      //Check for the jet lag
+      if((startDate.getMonth()==10 && startDate.getDate() >= 30) 
+      || (startDate.getMonth()==3 && startDate.getDate() <= 27) 
+      || (startDate.getMonth()>10 && startDate.getMonth()<3)){
+        startDate.setHours(startDate.getHours()+1);
+        endDate.setHours(endDate.getHours()+1);
+      }
+
+      console.log(startDate);
+      console.log('aaaaaa');
+      
+      this.loadEventFromInfo(startDate,endDate,sum,false,"Localisation " + loc + "\n" + descr)
+    }
+    }
+  }
 }
