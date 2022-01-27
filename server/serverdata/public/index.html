@@ -9,7 +9,7 @@
 <h3>Ajouter un contact</h3>
 
 <div class="container">
-  <form action="/" method="post">
+  <form action="/contact" method="post">
     <label for="fname">Nom complet</label>
     <input type="text" id="name" name="name" placeholder="Requis">
 
@@ -25,9 +25,42 @@
     <label for="infos">Informations complémentaires</label>
     <textarea id="infos" name="infos" placeholder="Optionnel" style="height:100px"></textarea>
 
-    <input type="submit" value="Enregistrer">
+    <input type="button" id="previousButton" value="Précédent">
+    <input type="submit" id="submitButton", value="Enregistrer">
+    <input type="button" id="deleteButton" value="Supprimer">
+    <input type="button" id="nextButton" value="Suivant">
+    
   </form>
 </div>
+
+<script>
+  var selectedContactId = 0
+
+  document.getElementById("previousButton").addEventListener("click", function(){getContact-(1)});
+  document.getElementById("nextButton").addEventListener("click", function(){getContact(1)});
+
+  function getContact(increment){
+    selectedContactId += increment
+    httpGetAsync("http://localhost:8000/contact/"+selectedContactId, function(res){
+      console.log(res)
+    })
+  };
+
+  function httpGetAsync(theUrl, callback){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+      callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+
+    
+  }
+
+  
+
+</script>
 
 </body>
 </html>

@@ -11,8 +11,7 @@ input[type=text], select, textarea {
   }
   
   /* Style the submit button with a specific background color etc */
-  input[type=submit] {
-    background-color: #04AA6D;
+  input[type=submit], input[type=button] {
     color: white;
     padding: 12px 20px;
     border: none;
@@ -20,11 +19,29 @@ input[type=text], select, textarea {
     cursor: pointer;
   }
   
-  /* When moving the mouse over the submit button, add a darker green color */
-  input[type=submit]:hover {
-    background-color: #45a049;
+  #previousButton, #nextButton{
+    background-color: #0066ff;
   }
-  
+
+  #previousButton:hover, #nextButton:hover{
+    background-color: #0033ff;
+  }
+
+  #submitButton{
+    background-color: #00aa00;
+  }
+
+  #submitButton:hover{
+    background-color: #008000;
+  }
+
+  #deleteButton{
+    background-color: #aa0000;
+  }
+
+  #deleteButton:hover{
+    background-color: #800000;
+  }
   /* Add a background color and some padding around the form */
   .container {
     border-radius: 5px;
