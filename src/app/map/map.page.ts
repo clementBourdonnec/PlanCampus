@@ -27,7 +27,7 @@ export class MapPage implements OnInit,OnDestroy {
 
     // antPath([[28.644800, 77.216721], [34.1526, 77.5771]],
       // { color: '#FF0000', weight: 5, opacity: 0.6 })
-      // .addTo(this.map);
+      // .addTo(this.map); ok let's go
   }
 
   /** Remove map when we have multiple map object */
