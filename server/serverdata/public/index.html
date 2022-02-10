@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body onload="onLoad()">
+
+<h3>Ajouter un contact</h3>
+
+<div class="container">
+
+  <select name="contactSelector" id="contactSelector" onchange="contactSelectorChange()"></select>
+
+  <form id="contactForm" name="contactForm">
+    <input type="hidden" id="id" name="id" value="-1"> 
+
+    <label for="fname">Nom complet</label>
+    <input type="text" id="name" name="name" placeholder="Requis">
+
+    <label for="address">Adresse</label>
+    <input type="text" id="address" name="address" placeholder="Optionnel">
+
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" placeholder="Optionnel">
+
+    <label for="phone">Téléphone</label>
+    <input type="text" id="phone" name="phone" placeholder="Optionnel">
+
+    <label for="infos">Informations complémentaires</label>
+    <textarea id="infos" name="infos" placeholder="Optionnel" style="height:100px"></textarea>
+
+    <input type="button" id="submitButton", value="Ajouter">
+    <input type="button" id="deleteButton" value="Supprimer" hidden="true">
+    
+  </form>
+</div>
+
+<script>
+
+
+document.getElementById("submitButton").addEventListener('click', function(){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8000/editContact"); 
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function(event){ 
+      //alert("Success, server responded with: " + event.target.response); // raw response
+      setContactsNames()
+      var selector = document.getElementById("contactSelector")
+      var selectedOption = selector.options[event.target.response]
+      selectedOption.selected = "selected"
+      getContact(event.target.response)
+
+  }; 
+  // or onerror, onabort
+  var formData = new FormData(document.getElementById("contactForm"));
+  var object = {};
+  formData.forEach((value, key) => object[key] = value);
+  var json = JSON.stringify(object);
+  xhr.send(json);
+});
+
+  var selectedContactId = 0
+
+  function getContact(id){
+    const fields = ["id","name","address","email","phone","infos"]
+    selectedContactId = id
+    httpGetAsync("http://localhost:8000/contact/"+selectedContactId, function(res){
+      console.log(res)
+      res = JSON.parse(res)
+      selectedContactId = Number(res.id)
+      for(let i = 0; i < fields.length; i++){
+        document.getElementById(fields[i]).value = res[fields[i]]
+      }
+    })
+    
+  };
+
+  function setContactsNames(){
+    httpGetAsync("http://localhost:8000/contactsNames/", function(res){
+    res = JSON.parse(res)
+
+    var selector = document.getElementById("contactSelector")
+    var i, l = selector.options.length - 1;
+    for(i = l; i >= 0; i--) {
+      selector.remove(i);
+    }
+
+    let firstOption = document.createElement("option")
+    firstOption.value = -1
+    firstOption.text = "-- Créer un contact --"
+    selector.add(firstOption)
+    for(let i = 0; i < res.length; i++){
+      let newOption = document.createElement("option")
+      newOption.value = i
+      newOption.text = res[i]
+      selector.add(newOption)
+    }
+
+    })
+  }
+
+  function onLoad(){
+    setContactsNames()
+  }
+
+  function httpGetAsync(url, callback){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+      callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", url, true); // true for asynchronous 
+    xmlHttp.send(null);
+  }
+ 
+
+  function contactSelectorChange(){
+    var selector = document.getElementById("contactSelector")
+    let id = selector.value;
+    if(id == -1){
+      const fields = ["id","name","address","email","phone","infos"]
+      for(i=0; i<fields.length; i++){
+        document.getElementById(fields[i]).value = null
+      }
+      document.getElementById("id").value = -1
+      document.getElementById("submitButton").value = "Ajouter"
+      document.getElementById("deleteButton").hidden = true
+    }else{
+      getContact(id)
+      document.getElementById("id").value = id
+      document.getElementById("submitButton").value = "Modifier"
+      document.getElementById("deleteButton").hidden = false
+    }
+  }
+
+  
+
+</script>
+
+</body>
+</html>
