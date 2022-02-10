@@ -4,12 +4,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-tabs>
+<!--Tabs de bas de page qui correspond à notre menu de navigation dans l'application--> 
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
     <ion-tab-bar slot='button'>
       <ion-tab-button ion-button color="secondary" routerLink="/edt"><ion-icon name="library-outline"></ion-icon>edt</ion-tab-button>
-      <ion-tab-button ion-button color="secondary" routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
-      <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
-    </ion-tab-bar>
-  </ion-tabs>
-</ion-content>
+     <ion-tab-button ion-button color="secondary" routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
+     <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>
+   </ion-tab-bar>
+ </ion-tabs>
+</ion-toolbar>
+</ion-footer>

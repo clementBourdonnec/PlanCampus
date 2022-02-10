@@ -82,14 +82,13 @@ export class EdtPage implements OnInit {
       events.push(event.pop());
       setTimeout(()=>{
         this.eventSource = [];
-      },5000)
+      },0)
       setTimeout(
         ()=>{
           this.eventSource = events
-        },5000
+        },0
       )
     }
-    console.log(this.eventSource);
   }
 
   /**
@@ -262,8 +261,6 @@ export class EdtPage implements OnInit {
       // parsing event informations
       var startDate:Date = new Date()
       startDate.setFullYear(parseInt(start.substring(0,4)))
-      console.log(parseInt(start.substring(4,6)));
-      
       startDate.setMonth(parseInt(start.substring(4,6))-1)
       startDate.setDate(parseInt(start.substring(6,8)))
       startDate.setHours(parseInt(start.substring(9,11)))
@@ -275,7 +272,6 @@ export class EdtPage implements OnInit {
       endDate.setHours(parseInt(end.substring(9,11)))
       endDate.setMinutes(parseInt(end.substring(11,13)))
       //Check for the jet lag
-      console.log(start);
       
       /*if((startDate.getMonth()==10 && startDate.getDate() >= 30) 
       || (startDate.getMonth()==3 && startDate.getDate() <= 27) 
@@ -283,9 +279,6 @@ export class EdtPage implements OnInit {
         startDate.setHours(startDate.getHours()+1);
         endDate.setHours(endDate.getHours()+1);
       }*/
-      
-
-      console.log(startDate + ' ' + sum + ' ' + descr);
       
       this.loadEventFromInfo(startDate,endDate,sum,false,"Localisation " + loc + "\n" + descr)
     }
