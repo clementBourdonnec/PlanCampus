@@ -44,9 +44,6 @@ export class EdtPage implements OnInit {
       allDay: false,
       details:"Test Detail"
   })
-    
-    
-    
     return events
   }
 
