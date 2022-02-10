@@ -62,22 +62,24 @@ export class EdtPage implements OnInit {
    * @param detail : String the details of the event
    */
   loadEventFromInfo(start:Date,end:Date,eventName:string,allday:boolean, detail:String){
-    events=[]
-    events.push({
+    var event=[]
+    event.push({
       title: eventName,
       startTime:start,
       endTime:end,
       allDay: allday,
       details:detail
     })
+    
+    
     if(this.cpt == 0){
-      this.eventSource = events;
+      this.eventSource = event;
       this.cpt++;
     }
     else{
       this.cpt++;
       var events = this.eventSource;
-      events.push(events);
+      events.push(event.pop());
       setTimeout(()=>{
         this.eventSource = [];
       },5000)
@@ -87,6 +89,7 @@ export class EdtPage implements OnInit {
         },5000
       )
     }
+    console.log(this.eventSource);
   }
 
   /**
@@ -257,26 +260,30 @@ export class EdtPage implements OnInit {
       }
 
       // parsing event informations
-      var startDate = new Date()
-      startDate.setFullYear(+start.substring(0,4))
-      startDate.setMonth(+start.substring(4,6))
-      startDate.setDate(+start.substring(6,8))
-      startDate.setHours(+start.substring(9,11))
-      startDate.setMinutes(+start.substring(11,13))
-      var endDate = new Date()
-      endDate.setFullYear(+end.substring(0,4))
-      endDate.setMonth(+end.substring(4,6))
-      endDate.setDate(+end.substring(6,8))
-      endDate.setHours(+end.substring(9,11))
-      endDate.setMinutes(+end.substring(11,13))
+      var startDate:Date = new Date()
+      startDate.setFullYear(parseInt(start.substring(0,4)))
+      console.log(parseInt(start.substring(4,6)));
       
+      startDate.setMonth(parseInt(start.substring(4,6))-1)
+      startDate.setDate(parseInt(start.substring(6,8)))
+      startDate.setHours(parseInt(start.substring(9,11)))
+      startDate.setMinutes(parseInt(start.substring(11,13)))
+      var endDate:Date = new Date()
+      endDate.setFullYear(parseInt(end.substring(0,4)))
+      endDate.setMonth(parseInt(end.substring(4,6))-1)
+      endDate.setDate(parseInt(end.substring(6,8)))
+      endDate.setHours(parseInt(end.substring(9,11)))
+      endDate.setMinutes(parseInt(end.substring(11,13)))
       //Check for the jet lag
-      if((startDate.getMonth()==10 && startDate.getDate() >= 30) 
+      console.log(start);
+      
+      /*if((startDate.getMonth()==10 && startDate.getDate() >= 30) 
       || (startDate.getMonth()==3 && startDate.getDate() <= 27) 
       || (startDate.getMonth()>10 && startDate.getMonth()<3)){
         startDate.setHours(startDate.getHours()+1);
         endDate.setHours(endDate.getHours()+1);
-      }
+      }*/
+      
 
       console.log(startDate + ' ' + sum + ' ' + descr);
       
