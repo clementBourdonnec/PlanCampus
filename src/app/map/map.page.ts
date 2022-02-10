@@ -16,10 +16,11 @@ export class MapPage implements OnInit,OnDestroy {
   ionViewDidEnter() { this.leafletMap(); }
 
   leafletMap() {
-    this.map = Leaflet.map('mapId').setView([	48.117266, -1.64], 16); //Latitude/longitude/zoomlevel
+    this.map = Leaflet.map('mapId').setView([	48.117266, -1.64], 17); //Latitude/longitude/zoomlevel
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'edupala.com © Angular LeafLet',
     }).addTo(this.map);
+    this.map.dragging.disable();
 
     // Leaflet.marker([28.6, 77]).addTo(this.map).bindPopup('Delhi').openPopup();
     // Leaflet.marker([34, 77]).addTo(this.map).bindPopup('Leh').openPopup();
