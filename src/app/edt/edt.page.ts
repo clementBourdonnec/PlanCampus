@@ -3,9 +3,6 @@ import { CalendarComponent } from 'ionic2-calendar';
 import { PopoverComponent } from '../popover/popover.component';
 import { PopoverController } from '@ionic/angular';
 import { DatePipe } from '@angular/common'
-import { HttpClient } from '@angular/common/http'
-import { map } from 'rxjs/operators';
-import { ReadVarExpr } from '@angular/compiler';
 @Component({
   selector: 'app-edt',
   templateUrl: './edt.page.html',
@@ -23,7 +20,7 @@ export class EdtPage implements OnInit {
 
   @ViewChild(CalendarComponent, null) myCalendar: CalendarComponent;
 
-  constructor(private popoverController:PopoverController, public datepipe: DatePipe, private http:HttpClient) {
+  constructor(private popoverController:PopoverController, public datepipe: DatePipe) {
     this.calendar  = {
       mode: 'week',
       currentDate: new Date(),
