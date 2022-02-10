@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { EdtPageRoutingModule } from './edt-routing.module';
-import { EdtPage } from './edt.page';
 
 registerLocaleData(localeFr, 'fr')
 
