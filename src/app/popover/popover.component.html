@@ -1,0 +1,30 @@
+<ion-header class='popover' [translucent]="true">
+  <ion-toolbar>
+    <ion-header>
+      <ion-grid class="popover-head">
+        <ion-row>
+          <ion-col>
+          {{title}}
+        
+          <ion-button class="close-button" color="primary" size="small" (click) = "closePopover()">
+
+            <ion-icon size="small" name="close"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+        
+      </ion-grid>
+    </ion-header>
+  </ion-toolbar>
+  <ion-content>
+    <div class="date">
+      {{date}}
+    </div>
+    <div class="description">
+      {{description}}
+    </div>
+    
+
+  </ion-content>
+  
+</ion-header>

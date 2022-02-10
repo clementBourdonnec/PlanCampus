@@ -9,15 +9,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { EdtPage } from './edt/edt.page';
 import { ContactPage } from './contact/contact.page';
 import { MapPage } from './map/map.page';
-
+import { NgCalendarModule} from 'ionic2-calendar';
+import { PopoverComponent } from './popover/popover.component';
+import { DatePipe } from '@angular/common'
 import { HttpClientModule } from '@angular/common/http'
 
 
+
 @NgModule({
-  declarations: [AppComponent, EdtPage, ContactPage, MapPage],
+  declarations: [AppComponent, EdtPage, ContactPage, MapPage,PopoverComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, NgCalendarModule, HttpClientModule],
+  providers: [DatePipe,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
