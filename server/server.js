@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const { request } = require('http');
 
 const baseDir = 'serverdata/public';
  
@@ -15,24 +16,51 @@ app.use(express.static(path.join(__dirname, baseDir)));
 
 
  // Bouton "enregistrer"
-app.post('/editContact', function(req, res) {
+app.post('*', function(req, res) {
     console.log("post reçu sur "+req.url)
-    let body = req.body
-    var new_contact = {"name":body.name,
-                       "address":body.address,
-                       "email":body.email,
-                       "phone":body.phone,
-                       "infos":body.infos}
-    var contacts = JSON.parse(fs.readFileSync("server/serverdata/contacts.json", 'utf8'))
-    if(body.id == "-1"){
-        contacts.push(new_contact)
-    }else{
-        contacts[body.id] = new_contact
+
+    var route = req.url.split('/')
+    var routeRoot = route[1]
+
+    switch(routeRoot){
+        case 'editContact':
+            var body = req.body
+            var new_contact = {"name":body.name,
+                               "address":body.address,
+                               "email":body.email,
+                               "phone":body.phone,
+                               "infos":body.infos}
+            var contacts = JSON.parse(fs.readFileSync("server/serverdata/contacts.json", 'utf8'))
+            if(body.id == "-1" || body.id == ''){
+                contacts.push(new_contact)
+                body.id = (contacts.length-1).toString()
+            }else{
+                contacts[body.id] = new_contact
+            }
+            fs.writeFileSync("server/serverdata/contacts.json", JSON.stringify(contacts), 'utf-8')
+            
+            res.send(body.id)
+        break;
+
+        case 'deleteContact':
+            var idToDelete = Number(route[2]) // /deleteContact/2 -> ['','contact','2']
+            var contacts = JSON.parse(fs.readFileSync("server/serverdata/contacts.json", 'utf8'))
+            contacts.splice(idToDelete, 1)
+            fs.writeFileSync("server/serverdata/contacts.json", JSON.stringify(contacts), 'utf-8')
+
+            res.send()
+
+
+        
+        break;
+
+
     }
-    fs.writeFileSync("server/serverdata/contacts.json", JSON.stringify(contacts), 'utf-8')
+
     
-    res.send(body.id)
 });
+
+
 
 app.get('*', function(req, res){
     console.log("get reçu sur "+req.url)
@@ -43,12 +71,13 @@ app.get('*', function(req, res){
     switch(routeRoot){
 
         case "contact":
-            var requestedId = route[2] // /contact/2 -> ['','contact','2']
+            
+            var requestedId = Number(route[2]) // /contact/2 -> ['','contact','2']
             var contacts = JSON.parse(fs.readFileSync("server/serverdata/contacts.json", 'utf8'))
-            if(Number(requestedId) >= contacts.length) requestedId = contacts.length - 1
+            if(requestedId >= contacts.length) requestedId = contacts.length - 1
 
             var requestedContact = contacts[requestedId]
-            requestedContact.id = requestedId
+            requestedContact.id = requestedId.toString()
             res.send(requestedContact)
             break;
 
