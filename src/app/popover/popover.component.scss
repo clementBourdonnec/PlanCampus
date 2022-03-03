@@ -4,6 +4,7 @@
     --ion-background-color: rgb(112, 107, 107);
     --ion-text-color: #ffffff;
     background-color: rgb(63, 63, 63);
+    overflow: hidden;
 }
 
 .popover-head {
@@ -21,5 +22,9 @@
 }
 
 .description{
+    padding-top: 10px;
+}
+
+.localisation{
     padding-top: 10px;
 }

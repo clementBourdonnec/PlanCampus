@@ -24,8 +24,8 @@ export class EdtPage implements OnInit {
     this.calendar = {
       mode: 'week',
       currentDate: new Date(),
-      startHour: '6',
-      endHour: '20',
+      startHour: '7',
+      endHour: '23',
       step: '30',
       locale: 'fr-FR'
     }
@@ -144,12 +144,6 @@ export class EdtPage implements OnInit {
   ngOnInit() {
     this.cpt = 0;
 
-    var start = new Date();
-    var end = new Date();
-    end.setHours(end.getHours() + 2);
-    end.setMinutes(start.getMinutes());
-    var eventName = 'Event Created on Init';
-    this.loadEventFromInfo(start, end, eventName, false, "Test Detail");
     //this.file.getFile(downloadPath,fileName,{create:false});
     /*this.http.get("https://planning.univ-rennes1.fr/direct/myplanning.jsp?ticket=ST-304837-f4bwEaof1-bKxZ1qsrqhfx8gIfQvmjava-pcas1").subscribe((data) => {
       console.log(data);
@@ -234,6 +228,9 @@ export class EdtPage implements OnInit {
     }
   }
 
+  /**
+   * Async function that loads a Loading screen (cover the entier screen)
+   */
   async presentLoadingWithOptions() {
     const loading = await this.loadingController.create({
       spinner: 'circular',
@@ -333,14 +330,11 @@ export class EdtPage implements OnInit {
           endDate.setHours(endDate.getHours() + 1);
         }
 
-        // let formatter = new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris' });
+        //Building the description text
+        descr.replace("\n"," ");
+        var description:String = loc + "////" + descr;
 
-        // //startDate = new Date(startDate.toLocaleDateString('fr-FR',{timeZone:'Europe/Paris'}))
-        // let usDate = formatter.format(startDate)
-        // //console.log(startDate);
-
-
-        this.loadEventFromInfo(startDate, endDate, sum, false, "Localisation " + loc + "\n" + descr)
+        this.loadEventFromInfo(startDate, endDate, sum, false, description)
       }
     }
   }

@@ -1,69 +1,64 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class='title'>Emploi du Temps</ion-title>
-    
-    <input type="file" id="input" (change)="getCalendarFileContent($event)">
-    <ion-button (click)="loadCalendar()"> Load Calendar </ion-button>
+    <input type="file" id="input" (change)="getCalendarFileContent($event)" onchange="document.getElementById('button-load').removeAttribute('disabled');">
+    <ion-button (click)="loadCalendar()" id="button-load" disabled style="font-size: 20px;text-transform: none;padding-bottom: 15px;"> Charger
+      Calendrier </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel" let-detail="details">
-    <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false"> 
-      <ion-item *ngFor="let event of selectedDate?.events" (click)="eventSelected(event)"> 
-      <span *ngIf="!event.allDay" class="monthview-eventdetail-timecolumn">
-        {{event.startTime|date: 'HH:mm'}} - {{event.endTime|date: 'HH:mm'}} 
-      </span> 
-      <span *ngIf="event.allDay" class="monthview-eventdetail-timecolumn">
-        All day
-      </span> 
-      <span class="event-detail">
-         | {{event.title}}
-        </span> 
-      </ion-item> 
-      <ion-item *ngIf="selectedDate?.events.length==0"> 
+  <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="selectedDate"
+    let-noEventsLabel="noEventsLabel" let-detail="details">
+    <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
+      <ion-item *ngFor="let event of selectedDate?.events" (click)="eventSelected(event)">
+        <span *ngIf="!event.allDay" class="monthview-eventdetail-timecolumn">
+          {{event.startTime|date: 'HH:mm'}} - {{event.endTime|date: 'HH:mm'}}
+        </span>
+        <span *ngIf="event.allDay" class="monthview-eventdetail-timecolumn">
+          All day
+        </span>
+        <span class="event-detail">
+          | {{event.title}}
+        </span>
+      </ion-item>
+      <ion-item *ngIf="selectedDate?.events.length==0">
         <div class="no-events-label">
           {{noEventsLabel}}
-        </div> 
-      </ion-item> 
-    </ion-list> 
+        </div>
+      </ion-item>
+    </ion-list>
   </ng-template>
   <!-- 
     (onTimeSelected)="onTimeSelected($event)"
   -->
 
-  <calendar 
-  [monthviewEventDetailTemplate]="template"
-  id='myCalendar'
-  [eventSource]="eventSource"
-  [calendarMode]="calendar.mode"
-  [currentDate]="calendar.currentDate"
-  (onCurrentDateChanged)="onCurrentDateChanged($event)"
-  (onRangeChanged)="reloadSource(startTime, endTime)"
-  (onEventSelected)="onEventSelected($event)"
-  (onTitleChanged)="onViewTitleChanged($event)"
-  (onTimeSelected)="onTimeSelected($event)"
-  [step]="calendar.step"
-  [startHour]='calendar.startHour'
-  [endHour]='calendar.endHour'
-  [startingDayWeek]=1
-  allDayLabel='All Day'
-  [locale]='calendar.locale'
-  (onDayHeaderSelected)='onDayHeaderSelected'
-  autoSelect ='false'>
+  <calendar [monthviewEventDetailTemplate]="template" id='myCalendar' [eventSource]="eventSource"
+    [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+    (onCurrentDateChanged)="onCurrentDateChanged($event)" (onRangeChanged)="reloadSource(startTime, endTime)"
+    (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)" [step]="calendar.step" [startHour]='calendar.startHour'
+    [endHour]='calendar.endHour' [startingDayWeek]=1 allDayLabel='All Day' [locale]='calendar.locale'
+    (onDayHeaderSelected)='onDayHeaderSelected' autoSelect='false'>
   </calendar>
 
 </ion-content>
 
-<!--Tabs de bas de page qui correspond à notre menu de navigation dans l'application--> 
+<!--Tabs de bas de page qui correspond à notre menu de navigation dans l'application-->
 <ion-footer>
   <ion-toolbar>
     <ion-tabs>
-    <ion-tab-bar slot='button'>
-      <ion-tab-button ion-button color="secondary" routerLink="/edt"><ion-icon name="library-outline"></ion-icon>edt</ion-tab-button>
-     <ion-tab-button ion-button color="secondary" routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
-     <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>
-   </ion-tab-bar>
- </ion-tabs>
-</ion-toolbar>
+      <ion-tab-bar slot='button'>
+        <ion-tab-button ion-button color="secondary" routerLink="/edt">
+          <ion-icon name="library-outline"></ion-icon>edt
+        </ion-tab-button>
+        <ion-tab-button ion-button color="secondary" routerLink="/map">
+          <ion-icon name="map-outline"></ion-icon>map
+        </ion-tab-button>
+        <ion-tab-button ion-button routerLink="/contact">
+          <ion-icon name="information-circle-outline"></ion-icon>contact
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
 </ion-footer>
