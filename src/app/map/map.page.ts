@@ -44,7 +44,7 @@ export class MapPage implements OnInit,OnDestroy {
      //For pour ajouter nos marqueur qui viennent du fetch sur le json
       for (const property of this.propertyList) {
       Leaflet.marker([property.lat, property.long]).addTo(this.map)
-        .bindPopup(property.city)
+        .bindPopup(property.name)
         .openPopup();
     }
     

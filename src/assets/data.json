@@ -1,16 +1,40 @@
 {
     "properties": [
         {
-            "city": "Batiment 42",
+            "name": "Restaurant Universitaire l'Astrolabe",
             "state": "",
-            "long": -1.63632,
+            "long": -1.63555,
+            "lat": 48.11855
+        },
+        {
+            "name": "Bâtiment 43 - Cafét'Astrolable",
+            "state": "",
+            "long": -1.63577,
+            "lat": 48.11823
+        },
+        {
+            "name": "Bâtiment 42 - ESIR Amphithéâtre",
+            "state": "",
+            "long": -1.63625,
             "lat": 48.1181051
         },
         {
-            "city": "Batiment 41",
+            "name": "Bâtiment 41 - ESIR Salle de TD",
             "state": "",
-            "long": -1.6366479,
+            "long": -1.6367,
             "lat": 48.1180031
+        },
+        {
+            "name": "Bâtiment 41b - ESIR Administration",
+            "state": "",
+            "long": -1.63648,
+            "lat": 48.1180031
+        },
+        {
+            "name": "Bâtiment 40 - Bibliothèque universitaire de Sciences et philosophie",
+            "state": "",
+            "long": -1.6363543,
+            "lat": 48.119003
         }
     ]
 }
