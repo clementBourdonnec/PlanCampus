@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarComponent } from 'ionic2-calendar';
 import { PopoverComponent } from '../popover/popover.component';
-import { PopoverController } from '@ionic/angular';
+import { LoadingController, PopoverController } from '@ionic/angular';
 import { DatePipe } from '@angular/common'
 @Component({
   selector: 'app-edt',
@@ -20,7 +20,7 @@ export class EdtPage implements OnInit {
 
   @ViewChild(CalendarComponent, null) myCalendar: CalendarComponent;
 
-  constructor(private popoverController:PopoverController, public datepipe: DatePipe) {
+  constructor(private popoverController:PopoverController, public datepipe: DatePipe, public loadingController: LoadingController) {
     this.calendar  = {
       mode: 'week',
       currentDate: new Date(),
@@ -43,7 +43,7 @@ export class EdtPage implements OnInit {
       endTime:endDate,
       allDay: false,
       details:"Test Detail"
-  })
+    })
     return events
   }
 
@@ -222,6 +222,7 @@ export class EdtPage implements OnInit {
     }
   }
 
+
   /**
    * Loads the events contained in the calendarTextFromFile variable as a text : parse this text
    */
@@ -230,9 +231,10 @@ export class EdtPage implements OnInit {
 
     }
     else{
+    this.presentLoadingWithOptions();
     console.log("Starting loading calendar");
     var eventsTab = this.calendarTextFromFile.split('BEGIN');
-
+    
     // going on each available event
     for(let eventIndex = 2; eventIndex<eventsTab.length; eventIndex++){
       var eventInfoTab = eventsTab[eventIndex].split('\n');
@@ -257,25 +259,52 @@ export class EdtPage implements OnInit {
       startDate.setFullYear(parseInt(start.substring(0,4)))
       startDate.setMonth(parseInt(start.substring(4,6))-1)
       startDate.setDate(parseInt(start.substring(6,8)))
-      startDate.setHours(parseInt(start.substring(9,11)))
+      startDate.setHours(parseInt(start.substring(9,11))+1)
       startDate.setMinutes(parseInt(start.substring(11,13)))
       var endDate:Date = new Date()
       endDate.setFullYear(parseInt(end.substring(0,4)))
       endDate.setMonth(parseInt(end.substring(4,6))-1)
       endDate.setDate(parseInt(end.substring(6,8)))
-      endDate.setHours(parseInt(end.substring(9,11)))
+      endDate.setHours(parseInt(end.substring(9,11))+1)
       endDate.setMinutes(parseInt(end.substring(11,13)))
-      //Check for the jet lag
       
-      /*if((startDate.getMonth()==10 && startDate.getDate() >= 30) 
-      || (startDate.getMonth()==3 && startDate.getDate() <= 27) 
-      || (startDate.getMonth()>10 && startDate.getMonth()<3)){
-        startDate.setHours(startDate.getHours()+1);
-        endDate.setHours(endDate.getHours()+1);
-      }*/
+      //Check for the jet lag
+      // if((startDate.getMonth()==10 && startDate.getDate() >= 30) 
+      // || (startDate.getMonth()==3 && startDate.getDate() <= 27) 
+      // || (startDate.getMonth()>10 && startDate.getMonth()<3)){
+      //   console.log(1 + ' ' + startDate);
+      //   startDate.setHours(startDate.getHours()+1);
+      //   endDate.setHours(endDate.getHours()+1);
+      //   console.log(2 + ' ' + startDate);
+      // }
+      
+      let formatter = new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris'});   
+      
+      //startDate = new Date(startDate.toLocaleDateString('fr-FR',{timeZone:'Europe/Paris'}))
+      let usDate = formatter.format(startDate)
+      console.log(startDate);
+      
       
       this.loadEventFromInfo(startDate,endDate,sum,false,"Localisation " + loc + "\n" + descr)
     }
     }
   }
+
+  async presentLoadingWithOptions() {
+    const loading = await this.loadingController.create({
+      spinner: 'circular',
+      duration: 5000,
+      message: 'Veuillez patienter...',
+      mode: 'ios',
+      translucent: false,
+      cssClass: 'loading',
+      backdropDismiss: true,
+      id: 'loading-popover',
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed with role:', role);
+  }
+
 }
