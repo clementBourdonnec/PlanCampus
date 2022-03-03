@@ -1,0 +1,16 @@
+{
+    "properties": [
+        {
+            "city": "Batiment 42",
+            "state": "",
+            "long": -1.63632,
+            "lat": 48.1181051
+        },
+        {
+            "city": "Batiment 41",
+            "state": "",
+            "long": -1.6366479,
+            "lat": 48.1180031
+        }
+    ]
+}
