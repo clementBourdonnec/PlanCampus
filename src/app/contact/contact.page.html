@@ -9,7 +9,7 @@
     <ion-tab-bar slot='button'>
       <ion-tab-button ion-button color="secondary" routerLink="/edt"><ion-icon name="library-outline"></ion-icon>edt</ion-tab-button>
       <ion-tab-button ion-button color="secondary" routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
-      <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
+      <ion-tab-button ion-button routerLink="/contacts"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
     </ion-tab-bar>
   </ion-tabs>
 
@@ -21,17 +21,19 @@
 <!-- Début scrollbar -->
 <ion-list>
 
-  <ion-item *ngFor="let employee of itemListData">
+  <ion-item *ngFor="let contact of itemListData">
+    <!--
     <ion-avatar slot="start">
-      <img [src]="employee.imageUrl">
+      <img [src]="contact.imageUrl">
     </ion-avatar>
+    -->
     <ion-label>
       <ion-text>
-        <h2>{{employee.name}}</h2>
-        <p>{{employee.jobtype}}</p>
+        <h2>{{contact.name}}</h2>
+        <p>{{contact.jobtype}}</p>
       </ion-text>
       <ion-text color="medium">
-        <p>{{employee.email}}, {{employee.address}}</p>
+        <p>{{contact.email}}, {{contact.address}}</p>
       </ion-text>
     </ion-label>
   </ion-item>

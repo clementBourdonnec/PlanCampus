@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class HttpConfigService {
 
   // API path 
-  base_path = 'http://localhost:3000/employees';
+  base_path = 'http://localhost:8000/';
 
   constructor(
     private http: HttpClient

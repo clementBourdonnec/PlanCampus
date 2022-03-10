@@ -15,7 +15,7 @@
   <form id="contactForm" name="contactForm">
     <input type="hidden" id="id" name="id" value="-1"> 
 
-    <label for="fname">Nom complet</label>
+    <label for="name">Nom complet</label>
     <input type="text" id="name" name="name" placeholder="Requis">
 
     <label for="address">Adresse</label>
@@ -37,10 +37,12 @@
 </div>
 
 <script>
-
+  const host = 'http://localhost'
+  const port = 8000 
   document.getElementById("submitButton").addEventListener('click', function(){
+    if(document.getElementById("name").value == "") return
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8000/editContact"); 
+    xhr.open("POST", host+":"+port+"/editContact"); 
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function(event){ 
         //alert("Success, server responded with: " + event.target.response); // raw response
@@ -60,7 +62,7 @@
 
   document.getElementById("deleteButton").addEventListener('click', function(){
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8000/deleteContact/"+selectedContactId); 
+    xhr.open("POST", host+":"+port+"/deleteContact/"+selectedContactId); 
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function(event){ 
         //alert("Success, server responded with: " + event.target.response); // raw response
@@ -82,7 +84,7 @@
     if(selectedContactId == -1){
       for(let i = 0; i < fields.length; i++) document.getElementById(fields[i]).value = null
     }else{
-      httpGetAsync("http://localhost:8000/contact/"+selectedContactId, function(res){
+      httpGetAsync(host+":"+port+"/contact/"+selectedContactId, function(res){
       res = JSON.parse(res)
       selectedContactId = Number(res.id)
       for(let i = 0; i < fields.length; i++) document.getElementById(fields[i]).value = res[fields[i]]
@@ -93,7 +95,7 @@
   };
 
   function setContactsNames(idToSelect){
-    httpGetAsync("http://localhost:8000/contactsNames/", function(res){
+    httpGetAsync(host+":"+port+"/contactsNames/", function(res){
     res = JSON.parse(res)
     var selector = document.getElementById("contactSelector")
     var i, l = selector.options.length - 1;

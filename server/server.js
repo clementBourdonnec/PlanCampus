@@ -4,8 +4,11 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const { request } = require('http');
+var cors = require('cors');
 
 const baseDir = 'serverdata/public';
+const host = 'http://localhost'
+const port = 8000
  
 let app = express();
 
@@ -13,6 +16,7 @@ app.use(express.static(path.join(__dirname, baseDir)));
  
  app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+ app.use(cors());
 
 
  // Bouton "enregistrer"
@@ -24,17 +28,20 @@ app.post('*', function(req, res) {
 
     switch(routeRoot){
         case 'editContact':
+            var contacts = JSON.parse(fs.readFileSync("server/serverdata/contacts.json", 'utf8'))
             var body = req.body
-            var new_contact = {"name":body.name,
+            var new_contact = {"id":null,
+                               "name":body.name,
                                "address":body.address,
                                "email":body.email,
                                "phone":body.phone,
                                "infos":body.infos}
-            var contacts = JSON.parse(fs.readFileSync("server/serverdata/contacts.json", 'utf8'))
             if(body.id == "-1" || body.id == ''){
+                new_contact.id=contacts.length
                 contacts.push(new_contact)
                 body.id = (contacts.length-1).toString()
             }else{
+                new_contact.id = Number(body.id)
                 contacts[body.id] = new_contact
             }
             fs.writeFileSync("server/serverdata/contacts.json", JSON.stringify(contacts), 'utf-8')
@@ -46,6 +53,9 @@ app.post('*', function(req, res) {
             var idToDelete = Number(route[2]) // /deleteContact/2 -> ['','contact','2']
             var contacts = JSON.parse(fs.readFileSync("server/serverdata/contacts.json", 'utf8'))
             contacts.splice(idToDelete, 1)
+            for(let i = idToDelete; i < contacts.length; i++){
+                contacts[i].id = i
+            }
             fs.writeFileSync("server/serverdata/contacts.json", JSON.stringify(contacts), 'utf-8')
 
             res.send()
@@ -88,13 +98,18 @@ app.get('*', function(req, res){
             res.send(contactsNames)
             break;
 
-        default:
+        case "manage":
             res.sendFile(path.join(__dirname, baseDir, 'index.html'));
+            break;
+
+        default:
+            var contacts = JSON.parse(fs.readFileSync("server/serverdata/contacts.json", 'utf8'))
+            res.send(contacts)
             break;
     }
 
 })
 
-app.listen(8000, function() {
-    console.log("listening at http://localhost:8000");
+app.listen(port, function() {
+    console.log("listening at "+host+":"+port);
 });

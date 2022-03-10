@@ -1,9 +1,8 @@
-// TODO : Remplacer par les bons champs
 export class Contact {
     id: number;
     name: string;
-    email: string;
     address: string;
+    email: string;
     phone: string;
-    imageUrl: string;
+    infos: string;
 }

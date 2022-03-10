@@ -18,12 +18,12 @@ export class ContactPage implements OnInit {
     ) { }
 
   ngOnInit() {  
-    this.getEmployees(false, "");
+    this.getContacts(false, "");
   }
 
-  getEmployees(isFirstLoad, event) {
+  getContacts(isFirstLoad, event) {
 
-    this.url = '?_page=' + this.page_number + '&_limit=' + this.page_limit;
+    this.url = "contacts";
 
     this.httpConfigService.getListItems(this.url)
       .subscribe((data: any) => {
@@ -42,6 +42,6 @@ export class ContactPage implements OnInit {
   }
 
   doInfinite(event) {
-    this.getEmployees(true, event);
+    this.getContacts(true, event);
   }
 }
