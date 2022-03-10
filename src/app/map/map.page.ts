@@ -9,25 +9,51 @@ import { antPath } from 'leaflet-ant-path';
 })
 export class MapPage implements OnInit,OnDestroy {
   map: Leaflet.Map;
+  propertyList = [];
 
   constructor() { }
 
-  ngOnInit() { }
-  ionViewDidEnter() { this.leafletMap(); }
+  ngOnInit() { this.leafletMapInit();
+  }
+  ionViewDidEnter() { this.leafletMap();
+    //Fetch des données du json
+    fetch('./assets/data.json')
+    .then(res => res.json())
+    .then(data => {
+      this.propertyList = data.properties;
+      this.leafletMap();
+    })
+   }
+
+  leafletMapInit() {
+    this.map = Leaflet.map('mapId');
+  }
+
 
   leafletMap() {
-    this.map = Leaflet.map('mapId').setView([	48.117266, -1.64], 17); //Latitude/longitude/zoomlevel
+    
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'edupala.com © Angular LeafLet',
-    }).addTo(this.map);
-    this.map.dragging.disable();
+     }).addTo(this.map);
+   
+    //this.map.dragging.disable();
 
-    // Leaflet.marker([28.6, 77]).addTo(this.map).bindPopup('Delhi').openPopup();
-    // Leaflet.marker([34, 77]).addTo(this.map).bindPopup('Leh').openPopup();
 
-    // antPath([[28.644800, 77.216721], [34.1526, 77.5771]],
-      // { color: '#FF0000', weight: 5, opacity: 0.6 })
-      // .addTo(this.map);
+     //Leaflet.marker([48.1181139, -1.6363665,21]).addTo(this.map).bindPopup('Batiment 42').openPopup();
+
+     //For pour ajouter nos marqueur qui viennent du fetch sur le json
+      for (const property of this.propertyList) {
+      Leaflet.marker([property.lat, property.long]).addTo(this.map)
+        .bindPopup(property.name)
+        .openPopup();
+    }
+    
+    this.map.setMinZoom(17);
+    this.map.setMaxBounds([
+      [48.114, -1.649],
+      [48.1245, -1.63]
+  ]);
+  this.map.setView([	48.117266, -1.64], 17); //Latitude/longitude/zoomlevel
   }
 
   /** Remove map when we have multiple map object */
