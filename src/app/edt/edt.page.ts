@@ -111,8 +111,6 @@ export class EdtPage implements OnInit {
 
   onDayHeaderSelected(event) {
     console.log(event)
-    console.log('jkjkj');
-
   }
 
   onCurrentDateChanged(event: Date) {
@@ -165,10 +163,8 @@ export class EdtPage implements OnInit {
    * @param ev event selected in the calendar
    */
   async presentPopover(ev: any) {
-    console.log(ev);
     var s = this.datepipe.transform(ev.startTime, 'dd MMMM yyyy').toString();
     var tmp = ev.startTime.getMinutes().toString();
-    //console.log(ev.startTime.getMinutes());
 
     // Probleme pour les minutes 0 à 9 : affiche 10h4 par exemple => ajout d'un 0 à ce moment la
     if (ev.startTime.getMinutes() < 10) tmp = "0" + tmp;
@@ -176,9 +172,6 @@ export class EdtPage implements OnInit {
     tmp = ev.endTime.getMinutes().toString();
     if (ev.endTime.getMinutes() < 10) tmp = "0" + tmp;
     s += " - " + ev.endTime.getHours() + ":" + tmp;
-
-    console.log(s);
-    console.log(ev.details);
 
 
     const popover = await this.popoverController.create({
@@ -206,7 +199,9 @@ export class EdtPage implements OnInit {
 
     const file = event.target.files[0];
     //const file =  document.querySelector('input[type=file]').files[0];
+    console.log("File opened : ");
     console.log(file);
+    
 
     reader.readAsText(file);
     reader.onload = (e) => {
@@ -274,13 +269,28 @@ export class EdtPage implements OnInit {
     return lastSunday;
   }
 
+  cleanStr(str: String) {
+    var ret: string = "";
+    str = str.substring(4);
+    for (var i: number = 0; i < str.length; i++) {
+
+      if (new RegExp('[A-Za-z0-9\ -:()çéèàî]').test(str.charAt(i))) {
+        ret = ret + str.charAt(i);
+      }
+      else {
+        ret = ret + "<br/>";
+        i++
+      }
+    }
+
+    return ret;
+  }
+
   /**
    * Loads the events contained in the calendarTextFromFile variable as a text : parse this text
    */
   async loadCalendar() {
-    if (this.calendarTextFromFile.length == 0) {
-
-    }
+    if (this.calendarTextFromFile.length == 0) { }
     else {
       this.presentLoadingWithOptions();
 
@@ -291,23 +301,31 @@ export class EdtPage implements OnInit {
       await new Promise(resolve => setTimeout(resolve, 500));
 
       // going on each available event
-      for (let eventIndex = 2; eventIndex < eventsTab.length; eventIndex++) {
+      for (let eventIndex = 2; eventIndex < /*3*/eventsTab.length; eventIndex++) {
         var eventInfoTab = eventsTab[eventIndex].split('\n');
         var start: string;
         var end: string;
         var loc: string;
         var sum: string;
         var descr: string;
+        //console.log(eventsTab[eventIndex]);
+        var descrBool:boolean = true;
 
         // getting each information of the current event
         for (let infoIndex = 0; infoIndex < eventInfoTab.length; infoIndex++) {
+          
+          
           var info = eventInfoTab[infoIndex]
+          //console.log(info);
           info.includes('DTSTART') ? start = info.substring(8) : null;
           info.includes('DTEND') ? end = info.substring(6) : null;
           info.includes('LOCATION') ? loc = info.substring(9) : null;
           info.includes('SUMMARY') ? sum = info.substring(8) : null;
           info.includes('DESCRIPTION') ? descr = info.substring(12) : null;
+          (!new RegExp("[A-Z]:").test(info))? descr += info : null;
         }
+        descr = descr.substring(0,descr.lastIndexOf('('));
+        //descr = descr.substring(0,descr.length-3);
 
         // parsing event informations
         var startDate: Date = new Date()
@@ -329,11 +347,14 @@ export class EdtPage implements OnInit {
           startDate.setHours(startDate.getHours() + 1);
           endDate.setHours(endDate.getHours() + 1);
         }
+        
 
-        //Building the description text
-        descr.replace("\n"," ");
-        var description:String = loc + "////" + descr;
+        //Building and Cleaning the description text
+        descr = this.cleanStr(descr);
+        //descr = "<p>" + descr + "</p>";
+        var description: String = loc + "////" + descr;
 
+        //Loading the event in the calendar
         this.loadEventFromInfo(startDate, endDate, sum, false, description)
       }
     }
