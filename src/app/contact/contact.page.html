@@ -7,55 +7,52 @@
 <ion-content>
   <ion-tabs>
     <ion-tab-bar slot='button'>
-      <ion-tab-button ion-button color="secondary" routerLink="/edt"><ion-icon name="library-outline"></ion-icon>edt</ion-tab-button>
-      <ion-tab-button ion-button color="secondary" routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
-      <ion-tab-button ion-button routerLink="/contacts"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
+      <ion-tab-button ion-button color="secondary" routerLink="/edt">
+        <ion-icon name="library-outline"></ion-icon>edt
+      </ion-tab-button>
+      <ion-tab-button ion-button color="secondary" routerLink="/map">
+        <ion-icon name="map-outline"></ion-icon>map
+      </ion-tab-button>
+      <ion-tab-button ion-button routerLink="/contacts">
+        <ion-icon name="information-circle-outline"></ion-icon>contact
+      </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
-<!--Tabs de bas de page qui correspond à notre menu de navigation dans l'application--> 
-<ion-footer>
-  
+  <!--Tabs de bas de page qui correspond à notre menu de navigation dans l'application-->
+  <ion-footer>
 
-<ion-item>
-  <ion-label position="floating">Recherche</ion-label>
-  <ion-input placeholder="Chercher une école, un bâtiment..."></ion-input>
-</ion-item>
 
-<!-- Début scrollbar -->
-<ion-list>
+    <ion-item>
+      <ion-label position="floating">Recherche</ion-label>
+      <ion-input placeholder="Chercher une école, un bâtiment..."></ion-input>
+    </ion-item>
 
-  <ion-item *ngFor="let contact of itemListData">
-    <!--
+    <!-- Début scrollbar -->
+    <ion-list>
+
+      <ion-item *ngFor="let contact of itemListData">
+        <!--
   <ion-item *ngFor="let employee of itemListData">
     <ion-avatar slot="start">
       <img [src]="contact.imageUrl">
     </ion-avatar>
     -->
-    <ion-label>
-      <ion-text>
-        <h2>{{contact.name}}</h2>
-        <p>{{contact.jobtype}}</p>
-      </ion-text>
-      <ion-text color="medium">
-        <p>{{contact.email}}<br>{{contact.address}}<br>{{contact.phone}}<br>{{contact.infos}}</p>
-      </ion-text>
-    </ion-label>
-  </ion-item>
+        <ion-label>
+          <ion-text>
+            <h2>{{contact.name}}</h2>
+            <p>{{contact.jobtype}}</p>
+          </ion-text>
+          <ion-text color="medium">
+            <p>{{contact.email}}<br>{{contact.address}}<br>{{contact.phone}}<br>{{contact.infos}}</p>
+          </ion-text>
+        </ion-label>
+      </ion-item>
 
-</ion-list>
+    </ion-list>
 
-<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-  </ion-infinite-scroll-content>
-</ion-infinite-scroll>
-<!-- Fin scrollbar -->
-<ion-toolbar>
-  <ion-tabs>
-  <ion-tab-bar slot='button'>
-    <ion-tab-button ion-button routerLink="/edt"><ion-icon name="library-outline"></ion-icon>edt</ion-tab-button>
-    <ion-tab-button ion-button routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
-    <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
-  </ion-tab-bar>
-</ion-tabs>
-</ion-toolbar>
-</ion-footer>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <!-- Fin scrollbar -->
+  </ion-footer>
