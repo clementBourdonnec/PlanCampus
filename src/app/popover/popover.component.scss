@@ -1,0 +1,31 @@
+.popover {
+    --min-width: 600px !important;
+    --min-height: 600px !important;
+    --ion-background-color: rgb(112, 107, 107);
+    --ion-text-color: #ffffff;
+    background-color: rgb(63, 63, 63);
+    overflow: hidden;
+}
+
+.popover-head {
+    //text-align: center;
+    vertical-align: center;
+    text-align: center;
+}
+
+.close-button{
+    max-width: fit-content;
+    max-height: fit-content;
+    align-self: right;
+    float:right;
+    border-top-color: #940b0b;
+}
+
+.description{
+    padding-top: 10px;
+    font-size: small;
+}
+
+.localisation{
+    padding-top: 10px;
+}

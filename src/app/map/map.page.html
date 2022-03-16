@@ -1,15 +1,34 @@
+ <!-- Leaflet's CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+crossorigin=""/>
+
+ <!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
 <ion-header>
   <ion-toolbar>
     <ion-title>map</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-tabs>
-    <ion-tab-bar slot='button'>
-      <ion-tab-button ion-button color="secondary" routerLink="/edt"><ion-icon name="library-outline"></ion-icon>edt</ion-tab-button>
-      <ion-tab-button ion-button color="secondary" routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
-      <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
-    </ion-tab-bar>
-  </ion-tabs>
-</ion-content>
+
+  <!-- Test d'affichage d'une map leaflet--> 
+  <ion-content>
+    <div id="mapId" style="width: 100%; height: 100%"></div>
+  </ion-content>
+
+  <!--Tabs de bas de page qui correspond à notre menu de navigation dans l'application--> 
+  <ion-footer>
+    <ion-toolbar>
+      <ion-tabs>
+      <ion-tab-bar slot='button'>
+        <ion-tab-button ion-button routerLink="/edt"><ion-icon name="library-outline"></ion-icon>edt</ion-tab-button>
+       <ion-tab-button ion-button routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
+       <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
+     </ion-tab-bar>
+   </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

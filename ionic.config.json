@@ -1,5 +1,7 @@
 {
   "name": "PlanCampus",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

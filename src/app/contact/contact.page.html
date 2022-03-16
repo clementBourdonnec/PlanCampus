@@ -12,6 +12,9 @@
       <ion-tab-button ion-button routerLink="/contacts"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
     </ion-tab-bar>
   </ion-tabs>
+<!--Tabs de bas de page qui correspond à notre menu de navigation dans l'application--> 
+<ion-footer>
+  
 
 <ion-item>
   <ion-label position="floating">Recherche</ion-label>
@@ -23,6 +26,7 @@
 
   <ion-item *ngFor="let contact of itemListData">
     <!--
+  <ion-item *ngFor="let employee of itemListData">
     <ion-avatar slot="start">
       <img [src]="contact.imageUrl">
     </ion-avatar>
@@ -45,5 +49,13 @@
   </ion-infinite-scroll-content>
 </ion-infinite-scroll>
 <!-- Fin scrollbar -->
-
-</ion-content>
+<ion-toolbar>
+  <ion-tabs>
+  <ion-tab-bar slot='button'>
+    <ion-tab-button ion-button routerLink="/edt"><ion-icon name="library-outline"></ion-icon>edt</ion-tab-button>
+    <ion-tab-button ion-button routerLink="/map"><ion-icon name="map-outline"></ion-icon>map</ion-tab-button>
+    <ion-tab-button ion-button routerLink="/contact"><ion-icon name="information-circle-outline"></ion-icon>contact</ion-tab-button>      
+  </ion-tab-bar>
+</ion-tabs>
+</ion-toolbar>
+</ion-footer>

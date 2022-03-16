@@ -1,0 +1,64 @@
+{
+    "properties": [
+        {
+            "name": "Restaurant Universitaire l'Astrolabe",
+            "state": "",
+            "long": -1.63555,
+            "lat": 48.11855
+        },
+        {
+            "name": "Bâtiment 43 - Cafét'Astrolable",
+            "state": "",
+            "long": -1.63577,
+            "lat": 48.11823
+        },
+        {
+            "name": "Bâtiment 42 - ESIR Amphithéâtre",
+            "state": "",
+            "long": -1.63625,
+            "lat": 48.1181051
+        },
+        {
+            "name": "Bâtiment 41 - ESIR Salles de TD",
+            "state": "",
+            "long": -1.6367,
+            "lat": 48.1180031
+        },
+        {
+            "name": "Bâtiment 41b - ESIR Administration",
+            "state": "",
+            "long": -1.63648,
+            "lat": 48.1180031
+        },
+        {
+            "name": "Bâtiment 40 - Bibliothèque universitaire de Sciences et Philosophie",
+            "state": "",
+            "long": -1.6363543,
+            "lat": 48.119003
+        },
+        {
+            "name": "Bâtiment 12D - ISTIC",
+            "state": "",
+            "long": -1.6386537,
+            "lat": 48.1154142
+        },
+        {
+            "name": "Bâtiment 2B Le Bateau - Salle de TP Informatique",
+            "state": "",
+            "long": -1.6380661,
+            "lat": 48.1161175
+        },
+        {
+            "name": "Bâtiment 2A - Amphitéâtres A,B,C,D,E, Louis-Antoine, Hall des examens",
+            "state": "",
+            "long": -1.637659,
+            "lat": 48.1162468
+        },
+        {
+            "name": "Bâtiment 1A - Administration UR1",
+            "state": "",
+            "long": -1.6371227,
+            "lat": 48.1156564
+        }
+    ]
+}
