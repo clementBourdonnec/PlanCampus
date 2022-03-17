@@ -1,5 +1,7 @@
+import { ThisReceiver, ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { NavParams, PopoverController } from '@ionic/angular';
+import { ModalController, NavParams, PopoverController } from '@ionic/angular';
+import { MapPage } from '../map/map.page';
 
 @Component({
   selector: 'app-popover',
@@ -13,9 +15,10 @@ export class PopoverComponent implements OnInit {
   description:String;
   localisation:String;
 
+  mapOpen:boolean;
 
 
-  constructor(private popoverController:PopoverController,public navParam:NavParams) { }
+  constructor(private popoverController:PopoverController,public navParam:NavParams,private modalCtr:ModalController) { }
 
   ngOnInit() {
     this.date = this.navParam.get('date');
@@ -30,6 +33,18 @@ export class PopoverComponent implements OnInit {
 
   closePopover(){
     this.popoverController.dismiss();
+  }
+
+  async goToMap(){
+    var loc=this.localisation.split(" -")[0];
+    /*const map=await this.modalCtr.create({
+      component: MapPage,
+      cssClass: 'my-custom-class',
+      componentProps: { localisation:loc}
+    });
+    map.present();
+    this.tmpLoc = loc;*/
+    this.popoverController.dismiss(true);
   }
 
 }

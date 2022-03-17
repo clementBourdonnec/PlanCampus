@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarComponent } from 'ionic2-calendar';
 import { PopoverComponent } from '../popover/popover.component';
-import { LoadingController, PopoverController } from '@ionic/angular';
+import { LoadingController, ModalController, PopoverController } from '@ionic/angular';
 import { DatePipe } from '@angular/common'
+import { MapPage } from '../map/map.page';
 @Component({
   selector: 'app-edt',
   templateUrl: './edt.page.html',
@@ -17,10 +18,11 @@ export class EdtPage implements OnInit {
   calendar;
   test: any;
   calendarTextFromFile: String;
+  currentBuilding: String;
 
   @ViewChild(CalendarComponent, null) myCalendar: CalendarComponent;
 
-  constructor(private popoverController: PopoverController, public datepipe: DatePipe, public loadingController: LoadingController) {
+  constructor(private popoverController: PopoverController, public datepipe: DatePipe, public loadingController: LoadingController, private modalCtr: ModalController) {
     this.calendar = {
       mode: 'week',
       currentDate: new Date(),
@@ -142,13 +144,6 @@ export class EdtPage implements OnInit {
   ngOnInit() {
     this.cpt = 0;
 
-    //this.file.getFile(downloadPath,fileName,{create:false});
-    /*this.http.get("https://planning.univ-rennes1.fr/direct/myplanning.jsp?ticket=ST-304837-f4bwEaof1-bKxZ1qsrqhfx8gIfQvmjava-pcas1").subscribe((data) => {
-      console.log(data);
-    });
-    */
-    //"https://planning.univ-rennes1.fr/jsp/custom/modules/plannings/OnEkwy3r.shu"
-
     //Getting Calendar File datas
     let content = "Calendar File";
     let data: BlobPart = new Blob([content]);
@@ -156,6 +151,10 @@ export class EdtPage implements OnInit {
     arrayOfBlob.push(data);
     let calendarFile = new File(arrayOfBlob, "calendar.ics");
     //this.getCalendarFileContent(calendarFile)
+
+    var tmp:Date = new Date();
+    tmp.setHours(tmp.getHours() + 1)
+    this.loadEventFromInfo(new Date(), tmp, "test", false, "test");
   }
 
   /**
@@ -173,6 +172,8 @@ export class EdtPage implements OnInit {
     if (ev.endTime.getMinutes() < 10) tmp = "0" + tmp;
     s += " - " + ev.endTime.getHours() + ":" + tmp;
 
+    var loc = ev.details.split("////")[0].split(" -")[0];
+    var mapOpen: boolean = false;
 
     const popover = await this.popoverController.create({
       component: PopoverComponent,
@@ -183,9 +184,33 @@ export class EdtPage implements OnInit {
     });
     await popover.present();
 
-    const { role } = await popover.onDidDismiss();
+    const  role  = await popover.onDidDismiss().then((result) => {
+      console.log(result);
+      
+      if (!(typeof result == "undefined") && result['data'] == true) {
+        console.log("Map open" + result);
+        
+        mapOpen = true;
+      }
+      else{
+        console.log("map not open");
+        
+      }
+    });
+    //const { role } = await popover.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
+
+    if (popover.isConnected && mapOpen) {
+      const map = await this.modalCtr.create({
+        component: MapPage,
+        cssClass: 'modal-fullscreen',
+        componentProps: { buildingToSee: loc }
+      });
+      map.present();
+    }
   }
+
+
 
   /**
    * recuperate the content of the file selected by the html page 'edt.page.html'
@@ -201,7 +226,7 @@ export class EdtPage implements OnInit {
     //const file =  document.querySelector('input[type=file]').files[0];
     console.log("File opened : ");
     console.log(file);
-    
+
 
     reader.readAsText(file);
     reader.onload = (e) => {
@@ -309,12 +334,12 @@ export class EdtPage implements OnInit {
         var sum: string;
         var descr: string;
         //console.log(eventsTab[eventIndex]);
-        var descrBool:boolean = true;
+        var descrBool: boolean = true;
 
         // getting each information of the current event
         for (let infoIndex = 0; infoIndex < eventInfoTab.length; infoIndex++) {
-          
-          
+
+
           var info = eventInfoTab[infoIndex]
           //console.log(info);
           info.includes('DTSTART') ? start = info.substring(8) : null;
@@ -322,9 +347,9 @@ export class EdtPage implements OnInit {
           info.includes('LOCATION') ? loc = info.substring(9) : null;
           info.includes('SUMMARY') ? sum = info.substring(8) : null;
           info.includes('DESCRIPTION') ? descr = info.substring(12) : null;
-          (!new RegExp("[A-Z]:").test(info))? descr += info : null;
+          (!new RegExp("[A-Z]:").test(info)) ? descr += info : null;
         }
-        descr = descr.substring(0,descr.lastIndexOf('('));
+        descr = descr.substring(0, descr.lastIndexOf('('));
         //descr = descr.substring(0,descr.length-3);
 
         // parsing event informations
@@ -347,7 +372,7 @@ export class EdtPage implements OnInit {
           startDate.setHours(startDate.getHours() + 1);
           endDate.setHours(endDate.getHours() + 1);
         }
-        
+
 
         //Building and Cleaning the description text
         descr = this.cleanStr(descr);

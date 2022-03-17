@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NavParams } from '@ionic/angular';
 import * as Leaflet from 'leaflet';
 import { antPath } from 'leaflet-ant-path';
 
@@ -10,10 +11,12 @@ import { antPath } from 'leaflet-ant-path';
 export class MapPage implements OnInit,OnDestroy {
   map: Leaflet.Map;
   propertyList = [];
+  buildingToSee:String;
 
-  constructor() { }
+  constructor(private navParam:NavParams) { }
 
-  ngOnInit() { this.leafletMapInit();
+  ngOnInit() { 
+    this.leafletMapInit();
   }
   ionViewDidEnter() { this.leafletMap();
     //Fetch des données du json
@@ -23,6 +26,12 @@ export class MapPage implements OnInit,OnDestroy {
       this.propertyList = data.properties;
       this.leafletMap();
     })
+
+    //if(typeof this.navParam.data != "undefined")  {
+      //this.buildingToSee = this.navParam.get('localisation');
+      //console.log("No Building to see");
+    //}  
+    console.log(this.buildingToSee);
    }
 
   leafletMapInit() {
