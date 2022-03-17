@@ -21,13 +21,13 @@
     "@angular/platform-browser": "~11.2.0",
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
-    "faker": "^5.5.3",
     "@capacitor/core": "3.3.2",
     "@ionic-native/calendar": "^5.36.0",
     "@ionic-native/file": "^5.36.0",
     "@ionic/angular": "^5.5.2",
     "cordova-android": "9.1.0",
     "cordova-plugin-calendar": "^5.1.5",
+    "faker": "^5.5.3",
     "http": "^0.0.1-security",
     "ionic2-calendar": "^0.6.9",
     "ionic5-calendar": "^0.5.9",
@@ -82,7 +82,6 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-file": {},
       "cordova-sqlite-storage": {}
     },
     "platforms": [
