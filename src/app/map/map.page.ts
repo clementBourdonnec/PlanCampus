@@ -7,11 +7,12 @@ import { antPath } from 'leaflet-ant-path';
   selector: 'app-map',
   templateUrl: './map.page.html',
   styleUrls: ['./map.page.scss'],
+  providers:[NavParams]
 })
 export class MapPage implements OnInit,OnDestroy {
   map: Leaflet.Map;
   propertyList = [];
-  buildingToSee:String;
+  buildingToSee:String = "";
 
   constructor(private navParam:NavParams) { }
 
@@ -27,11 +28,12 @@ export class MapPage implements OnInit,OnDestroy {
       this.leafletMap();
     })
 
-    //if(typeof this.navParam.data != "undefined")  {
-      //this.buildingToSee = this.navParam.get('localisation');
-      //console.log("No Building to see");
-    //}  
-    console.log(this.buildingToSee);
+    
+    
+    console.log("building to see" + this.buildingToSee);
+    if(this.buildingToSee.length >0){
+      this.propertyList
+    }
    }
 
   leafletMapInit() {
