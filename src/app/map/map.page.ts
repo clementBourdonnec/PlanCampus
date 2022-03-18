@@ -27,12 +27,13 @@ export class MapPage implements OnInit,OnDestroy {
       this.propertyList = data.properties;
       this.leafletMap();
     })
-
     
-    
-    console.log("building to see" + this.buildingToSee);
+    new Promise(resolve => setTimeout(resolve, 2000));
+    console.log("building to see : " + this.buildingToSee);
     if(this.buildingToSee.length >0){
-      this.propertyList
+      console.log("There is a building to see");
+      
+      this.getLocalisation(this.buildingToSee);
     }
    }
 
@@ -53,7 +54,7 @@ export class MapPage implements OnInit,OnDestroy {
      //Leaflet.marker([48.1181139, -1.6363665,21]).addTo(this.map).bindPopup('Batiment 42').openPopup();
 
      //For pour ajouter nos marqueur qui viennent du fetch sur le json
-      for (const property of this.propertyList) {
+    for (const property of this.propertyList) {
       Leaflet.marker([property.lat, property.long]).addTo(this.map)
         .bindPopup(property.name)
         .openPopup();
@@ -72,5 +73,17 @@ export class MapPage implements OnInit,OnDestroy {
     this.map.remove();
   }
 
+  /**
+   * Function that recuperate the longitude and latitude of a point from a building name
+   * @param name the name of the building we seek
+   * @return (longitude, latitude) the localisation of the building
+   */
+  getLocalisation(name:String){
+    for (const property of this.propertyList) {
+      if(property.name == name){
+        this.map.setView([property.lat,property.long],17)
+      }
+    }
+  }
 
 }

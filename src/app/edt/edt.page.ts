@@ -154,7 +154,7 @@ export class EdtPage implements OnInit {
 
     var tmp:Date = new Date();
     tmp.setHours(tmp.getHours() + 1)
-    this.loadEventFromInfo(new Date(), tmp, "test", false, "test");
+    this.loadEventFromInfo(new Date(), tmp, "test", false, "b41 - oui");
   }
 
   /**
